@@ -211,6 +211,10 @@ jobs:
           gh repo sync "$forkOwner/winget-pkgs" --source microsoft/winget-pkgs
 
       - name: Submit package using wingetcreate
+        # winget-create will read the following environment variable to access the GitHub token needed for submitting a PR
+        # See https://aka.ms/winget-create-token
+        env:
+          WINGET_CREATE_GITHUB_TOKEN: ${{ secrets.WINGET_GITHUB_TOKEN }}
         run: |
           $packageVersion = "${{ github.ref }}" -replace 'refs/tags/v', ''
           $installerUrl = "https://github.com/httptoolkit/httptoolkit-desktop/releases/download/v$packageVersion/HttpToolkit-$packageVersion.exe"
@@ -220,5 +224,4 @@ jobs:
           .\wingetcreate.exe update HTTPToolKit.HTTPToolKit `
             --version $packageVersion `
             --urls "$installerUrl|x64" `
-            --submit `
-            --token "${{ secrets.WINGET_GITHUB_TOKEN }}"
+            --submit
