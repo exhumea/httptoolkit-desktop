@@ -220,7 +220,7 @@ jobs:
           $installerUrl = "https://github.com/httptoolkit/httptoolkit-desktop/releases/download/v$packageVersion/HttpToolkit-$packageVersion.exe"
 
           # Update package using wingetcreate
-          Invoke-WebRequest https://aka.ms/wingetcreate/latest -OutFile wingetcreate.exe
+          curl.exe -JLO https://aka.ms/wingetcreate/latest
           .\wingetcreate.exe update HTTPToolKit.HTTPToolKit `
             --version $packageVersion `
             --urls "$installerUrl|x64" `
